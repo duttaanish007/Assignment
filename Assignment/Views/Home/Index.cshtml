@@ -1,0 +1,162 @@
+﻿<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playwrite+DE+Grund:wght@100..400&family=Ubuntu:wght@300;400;500;700&display=swap");
+
+:root {
+  --name-font: "Ubuntu", sans-serif;
+  --title-font: "Playwrite DE Grund", cursive;
+  --text-font: "Oswald", sans-serif;
+  --text-color: black;
+  --primary-color: #f4e9e2;
+  --secondary-color: #41463d;
+  --accent-color: #de6b48;
+}
+
+[theme="dark"] {
+  --text-color: white;
+  --primary-color: #485665;
+  --secondary-color: #14213d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /*     border: 1px solid black; */
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-family: var(--text-font);
+}
+
+/* Tags */
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+}
+
+/* Utilities */
+.flex {
+  display: flex;
+}
+
+/* Classes */
+.nav {
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.25rem 0;
+}
+
+.nav h2 {
+  font-family: var(--name-font);
+  font-size: 2rem;
+  margin: 0 2rem;
+  transition:  0.5s ease all;
+}
+
+.nav h2:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.nav-items {
+  gap: 3rem;
+  margin: 0 2rem;
+  flex-direction: row;
+  justify-content: space-evenly;
+  
+  
+}
+
+.nav-items a{
+  border: 1px solid var(--accent-color);
+  padding:10px 15px;
+  transition: all 0.3s ease-in;
+}
+
+.nav-items a:hover {
+border-radius:10px;  
+background-color:var(--accent-color);
+color:#ffffff;
+  
+}
+
+.hero {
+  font-family: var(--title-font);
+  height: 50vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  gap: 1.25rem;
+}
+
+.tagline {
+  font-weight: 300;
+  gap: 1.25rem;
+}
+
+.tagline button {
+  display: block;
+  background-color: transparent;
+  scale: 2;
+  border: none;
+  transition: 0.25s ease-in-out all;
+}
+
+.tagline button:hover {
+  cursor: pointer;
+  transform: scale(1.25);
+}
+
+</style>
+    <div class="container">
+        <section class="nav flex">
+            <h2>Anish Dutta</h2>
+            
+        </section>
+        <section class="hero flex">
+            <h1>Dot net Developer </h1>
+            <div class="tagline flex">
+                <p>Hi there</p>
+                <button onclick="toggleTheme()">
+                    <span id="light-theme">⛅</span>
+                    <span id="dark-theme" style="display: none;">🌙</span>
+                </button>
+            </div>
+
+        </section>
+        <section class="details">
+            <div class="projects"></div>
+            <div class="experience"></div>
+            <div class="education"></div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.body.setAttribute("theme", "light");
+
+function toggleTheme() {
+  const body = document.body;
+  const theme = body.getAttribute("theme");
+  const light = document.getElementById("light-theme");
+  const dark = document.getElementById("dark-theme");
+
+  if (theme === "light") {
+    body.setAttribute("theme", "dark");
+    light.style.display = "none";
+    dark.style.display = "block";
+  } else {
+    body.setAttribute("theme", "light");
+    light.style.display = "block";
+    dark.style.display = "none";
+  }
+}
+
+    </script>

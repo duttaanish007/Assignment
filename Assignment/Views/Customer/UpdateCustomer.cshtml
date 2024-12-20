@@ -1,0 +1,32 @@
+﻿@model customerview
+
+<div class="modal-header">
+    <h5 class="modal-title">Update Customer</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<form asp-controller="Customer" asp-action="Customer" method="post">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Customer_obj.Customer_Id" />
+        <div class="mb-3">
+            <label asp-for="Customer_obj.Name" class="form-label">Name</label>
+            <input type="text" class="form-control" asp-for="Customer_obj.Name" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Customer_obj.Email" class="form-label">Email</label>
+            <input type="email" class="form-control" asp-for="Customer_obj.Email" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Customer_obj.Phone" class="form-label">Phone</label>
+            <input type="tel" class="form-control" asp-for="Customer_obj.Phone" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Customer_obj.Company_Name" class="form-label">Company</label>
+            <input type="text" class="form-control" asp-for="Customer_obj.Company_Name" required />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+

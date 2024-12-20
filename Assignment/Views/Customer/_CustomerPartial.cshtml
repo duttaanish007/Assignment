@@ -1,0 +1,78 @@
+﻿@model customerview
+
+@if(Model.Customer_obj==null)
+{
+    <form asp-controller="Customer" asp-action="Customer" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+                <label asp-for="Customer_obj.Name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="Name" asp-for="Customer_obj.Name" required>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Customer_obj.Email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="Email" asp-for="Customer_obj.Email" required>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Customer_obj.Phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" name="Phone" asp-for="Customer_obj.Phone" required>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Customer_obj.Company_Name" class="form-label">Company</label>
+                <input type="text" class="form-control" name="Company_Name" asp-for="Customer_obj.Company_Name" required>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-controller="Customer" asp-action="Update" method="post" asp-route-Id="@Model.Customer_obj.Customer_Id">
+                    <div class="modal-body">
+                        <input type="hidden" asp-for="Customer_obj.Customer_Id" value="@Model.Customer_obj.Customer_Id">
+                        <div class="mb-3">
+                            <label asp-for="Customer_obj.Name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="Name" asp-for="Customer_obj.Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Customer_obj.Email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="Email" asp-for="Customer_obj.Email" value="@Model.Customer_obj.Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Customer_obj.Phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" name="Phone" asp-for="Customer_obj.Phone" value="@Model.Customer_obj.Phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Customer_obj.Company_Name" class="form-label">Company</label>
+                            <input type="text" class="form-control" name="Company_Name" asp-for="Customer_obj.Company_Name" value="@Model.Customer_obj.Company_Name" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" asp-action="Update" asp-route-Id="@Model.Customer_obj.Customer_Id">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    window.onload = function () {
+        var myModal = new bootstrap.Modal(document.getElementById('updateModal'), {
+            keyboard: false // Optionally, disable closing by keyboard
+        });
+        myModal.show();
+    };
+</script>

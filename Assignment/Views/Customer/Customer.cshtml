@@ -1,0 +1,241 @@
+﻿@model customerview
+@{
+    int i = 0;
+}
+<!-- Include Bootstrap and jQuery -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/fontawesome.min.css" integrity="sha512-lauN4D/0AgFUGvmMR+knQnbOADyD/XuQ8VF18I8Ll0+TLvsujshyxvU+uzogmQbSq6qJd5jnUdYtK8ShxXMlSg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- DataTables Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+
+<!-- JSZip -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- pdfMake JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<!-- DataTables Buttons (HTML5 and Print) -->
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+
+<!-- DataTables Buttons CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.0/css/buttons.dataTables.css">
+
+<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playwrite+DE+Grund:wght@100..400&family=Ubuntu:wght@300;400;500;700&display=swap");
+
+    :root {
+        --name-font: "Ubuntu", sans-serif;
+        --title-font: "Playwrite DE Grund", cursive;
+        --text-font: "Oswald", sans-serif;
+        --text-color: black;
+        --primary-color: #f4e9e2;
+        --secondary-color: #41463d;
+        --accent-color: #de6b48;
+    }
+
+    [theme="dark"] {
+        --text-color: white;
+        --primary-color: #485665;
+        --secondary-color: #14213d;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /*     border: 1px solid black; */
+    }
+
+    body {
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        font-family: var(--text-font);
+    }
+
+    /* Tags */
+
+    a {
+        text-decoration: none;
+        color: var(--text-color);
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    /* Utilities */
+    .flex {
+        display: flex;
+    }
+
+    /* Classes */
+    .nav {
+        justify-content: space-between;
+        align-items: center;
+        margin: 1.25rem 0;
+    }
+
+        .nav h2 {
+            font-family: var(--name-font);
+            font-size: 2rem;
+            margin: 0 2rem;
+            transition: 0.5s ease all;
+        }
+
+            .nav h2:hover {
+                color: var(--accent-color);
+                cursor: pointer;
+            }
+
+    .nav-items {
+        gap: 3rem;
+        margin: 0 2rem;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+        .nav-items a {
+            border: 1px solid var(--accent-color);
+            padding: 10px 15px;
+            transition: all 0.3s ease-in;
+        }
+
+            .nav-items a:hover {
+                border-radius: 10px;
+                background-color: var(--accent-color);
+                color: #ffffff;
+            }
+
+    .hero {
+        font-family: var(--title-font);
+        height: 50vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        gap: 1.25rem;
+    }
+
+    .tagline {
+        font-weight: 300;
+        gap: 1.25rem;
+    }
+
+        .tagline button {
+            display: block;
+            background-color: transparent;
+            scale: 2;
+            border: none;
+            transition: 0.25s ease-in-out all;
+        }
+
+            .tagline button:hover {
+                cursor: pointer;
+                transform: scale(1.25);
+            }
+
+</style>
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h1>Customer List</h1>
+        </div>
+        <div class="col-6 text-end">
+            <div id="PlaceHolderHere"></div>
+            <!-- Button to open Create Customer modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
+                Create New Customer
+            </button>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display" id="example" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>Customer Phone</th>
+                <th>Customer Company</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.CustomerList != null && Model.CustomerList.Any())
+            {
+                @foreach (var items in Model.CustomerList)
+                {
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@items.Name</td>
+                        <td>@items.Email</td>
+                        <td>@items.Phone</td>
+                        <td>@items.Company_Name</td>
+                        <td>
+                            <!-- Edit Button -->
+                           
+                            <a asp-controller="Customer" asp-action="Customer" asp-route-Id="@items.Customer_Id" class="btn btn-primary" >
+                                <i class="bi bi-pencil-fill"></i> Edit
+                            </a>
+
+                            <!-- Delete Button -->
+                            <a asp-controller="Customer" asp-action="Delete" asp-route-Id="@items.Customer_Id" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash3-fill"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-center">No customers found.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal for Create New Customer -->
+@if(Model.Customer_obj==null)
+{
+    <div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Create Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @* Modal content will be dynamically loaded *@
+                    @await Html.PartialAsync("_CustomerPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Structure -->
+    
+}
+
+<script>
+    $(document).ready(function () {
+        new DataTable('#example', {
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                }
+            }
+        });
+    });
+</script>
+
+
